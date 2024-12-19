@@ -1,0 +1,23 @@
+{% block title %}Pretraga stanova{% endblock %} {% block layout %}
+<h1>Pretraga stanova</h1>
+
+<form>
+  <div>
+    <label for="numOfRooms">Broj sobe:</label>
+    <input type="number" name="numOfRooms" id="numOfRooms" />
+  </div>
+  <div>
+    <label for="location">Lokacija:</label>
+    <input type="number" name="location" id="location" />
+  </div>
+  <div>
+    <label for="maxPrice">Najviša cena:</label>
+    <input type="number" name="maxPrice" id="maxPrice" />
+  </div>
+  <div>
+    <label for="minArea">Najmanja kvadratura:</label>
+    <input type="number" name="minArea" id="minArea" />
+  </div>
+  <input type="submit" value="Pretraži" />
+</form>
+{% endblock %}
