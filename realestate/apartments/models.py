@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
@@ -59,7 +59,7 @@ class Apartment(models.Model):
 class Ad(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
-    date_posted = models.DateField(default=datetime.now())
+    date_posted = models.DateField(default=now)
     date_updated = models.DateField(null=True)
     has_images = models.BooleanField()
     move_date = models.DateField()
@@ -67,10 +67,14 @@ class Ad(models.Model):
 
 
 class Account(AbstractBaseUser):
-    username = models.CharField(max_length=32, null=True)
+    username = None
+    email = models.EmailField(null=True, max_length=64)
     phone = models.CharField(max_length=16)
-    posted_ads = models.ManyToManyField(Ad, related_name="posted_ads")
-    liked_ads = models.ManyToManyField(Ad, related_name="liked_ads")
+    USERNAME_FIELD = 'email'
+
+
+    class Meta:
+        abstract = True
 
 
 class Landlord(Account):
@@ -96,9 +100,9 @@ class Address(models.Model):
 
 
 class Agency(Account):
+    name = models.CharField(null=True, max_length=32)
     website = models.CharField(max_length=48)
-    email = models.EmailField(max_length=64)
-    registration_date = models.DateField(default=datetime.now())
+    registration_date = models.DateField(default=now)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True)
 
 
@@ -107,4 +111,4 @@ class Agency(Account):
 
 
     def __str__(self):
-        return f"{self.username}"
+        return f"{self.name}"

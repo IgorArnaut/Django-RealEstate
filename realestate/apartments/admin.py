@@ -19,13 +19,13 @@ admin.site.register(Ad)
 
 class LandlordAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields': ('username', 'first_name', 'last_name', 'phone',)}),
+        (None, {'fields': ('email', 'first_name', 'last_name', 'phone',)}),
     )
 
 
 class AgencyAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields': ('username', 'website', 'email', 'registration_date', 'address', 'phone',)}),
+        (None, {'fields': ('email', 'name', 'website', 'registration_date', 'address', 'phone',)}),
     )
 
 
