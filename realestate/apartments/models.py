@@ -4,23 +4,23 @@ from django.contrib.auth.models import AbstractBaseUser
 
 # Create your models here.
 STATE_CHOICES = {
-    "OG": "ORIGINAL",
-    "NE": "NEW",
-    "RE": "RENOVATED",
-    "LU": "LUX"
+    "OG": "Izvorno",
+    "NE": "Novo",
+    "LU": "Lux",
+    "RE": "Renovirano"
 }
 FURNISHING_CHOICES = {
-    "FU": "FURNISHED",
-    "SF": "SEMI_FURNISHED",
-    "EM": "EMPTY"
+    "EM": "Prazno",
+    "FU": "Namešteno",
+    "SF": "Polunamešteno"
 }
 HEATING_CHOICES = {
-    "DH": "DISTRICT",
-    "FH": "FLOOR",
-    "SH": "STORAGE_HEATER",
-    "GA": "GAS",
-    "TS": "TILED_STOVE",
-    "HP": "HEAT_PUMP"
+    "DI": "Gradsko",
+    "FL": "Etažno",
+    "GA": "Gas",
+    "HP": "Toplotna pumpa",
+    "SH": "TA",
+    "TS": "Kaljeva peć"
 }
 
 
@@ -38,7 +38,6 @@ class Content(models.Model):
         return f"{self.name}"
 
 
-
 class Apartment(models.Model):
     num_of_rooms = models.PositiveSmallIntegerField()
     location = models.CharField(max_length=32)
@@ -47,7 +46,7 @@ class Apartment(models.Model):
     story = models.PositiveSmallIntegerField()
     state = models.CharField(max_length=2, choices=STATE_CHOICES, default="OG")
     furnishing = models.CharField(max_length=2, choices=FURNISHING_CHOICES, default="FU")
-    heating = models.CharField(max_length=2, choices=HEATING_CHOICES, default="DH")
+    heating = models.CharField(max_length=2, choices=HEATING_CHOICES, default="DI")
     conditions = models.ManyToManyField(Condition)
     contents = models.ManyToManyField(Content)
 
@@ -66,11 +65,16 @@ class Ad(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
 
 
+    def __str__(self):
+        return self.title
+
+
 class Account(AbstractBaseUser):
     username = None
     email = models.EmailField(null=True, max_length=64)
     phone = models.CharField(max_length=16)
     USERNAME_FIELD = 'email'
+    ads = models.ManyToManyField(Ad)
 
 
     class Meta:
@@ -80,6 +84,7 @@ class Account(AbstractBaseUser):
 class Landlord(Account):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
+    liked_ads = models.ManyToManyField(Ad, related_name='liked_ads')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -111,4 +116,4 @@ class Agency(Account):
 
 
     def __str__(self):
-        return f"{self.name}"
+        return self.name
