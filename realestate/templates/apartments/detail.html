@@ -1,3 +1,24 @@
-{% block title %}Detalji{% endblock %} {% block layout %}
-<h1>Detalji</h1>
-{% endblock %}
+{% block title %} - Detalji{% endblock %} {% block layout %} {% if ad %}
+<h1>{{ ad.title }}</h1>
+<div>
+  <h2>Uslovi</h2>
+  <ul>
+    {% if ad.apartment.conditions %} {% for condition in ad.apartment.conditions.all %}
+    <li>{{condition.name}}</li>
+    {% endfor %} {% endif %}
+  </ul>
+</div>
+<div>
+  <h2>Sadržaj</h2>
+  <ul>
+    {% if ad.apartment.contents %} {% for content in ad.apartment.contents.all %}
+    <li>{{content.name}}</li>
+    {% endfor %} {% endif %}
+  </ul>
+</div>
+<div>
+  <h2>Opis</h2>
+  <p>{{ ad.description }}</p>
+</div>
+<a href="{% url 'index' %}">Nazad</a>
+{% endif %} {% endblock %}

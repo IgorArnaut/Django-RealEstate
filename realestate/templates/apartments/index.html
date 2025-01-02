@@ -1,5 +1,11 @@
-{% block title %}Početna{% endblock %}
-
-{% block layout %}
-<h1>Dobrodošli</h1>
+{% block title %} - Početna{% endblock %} {% block layout %}
+<div class="container">
+  <h1 class="fw-bold">Dobrodošli</h1>
+  <h2>Najnoviji stanovi</h2>
+  <ul>
+    {% if ads %} {% for ad in ads %}
+    <li><a href="{% url 'detail' ad.id %}">{{ ad.title }}</a></li>
+    {% endfor %} {% endif %}
+  </ul>
+</div>
 {% endblock %}
