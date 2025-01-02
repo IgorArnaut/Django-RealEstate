@@ -1,6 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from .models import Ad
+from .forms import AdForm
 
 # Create your views here.
 def index(request):
@@ -18,3 +21,14 @@ def search(request):
 def detail(request, id):
     ad = Ad.objects.get(pk=id)
     return render(request, 'apartments/detail.html', { 'ad': ad })
+
+
+def add(request):
+     if request.method == 'POST':
+        form = AdForm(request.POST)
+
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('index'))
+     else:
+        form = AdForm()
+        return render(request, 'apartments/add.html', { 'form': form })
