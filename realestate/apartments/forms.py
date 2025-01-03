@@ -12,13 +12,15 @@ class AdForm(forms.Form):
     state            = forms.ChoiceField(choices=STATE_CHOICES, label="Stanje", initial="OG", required=True)
     furnishing       = forms.ChoiceField(choices=FURNISHING_CHOICES, label="Nameštenost", initial="FU", required=True)
     heating          = forms.ChoiceField(choices=HEATING_CHOICES, label="Grejanje", initial="DI", required=True)
-    conditionChoice  = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Condition.objects.all(), label="Uslovi", required=True)
-    contentChoice    = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Content.objects.all(), label="Sadržaj", required=True)
+    conditions  = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Condition.objects.all(), label="Uslovi", required=True)
+    contents    = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Content.objects.all(), label="Sadržaj", required=True)
     title            = forms.CharField(max_length=64, label="Naslov", required=True)
     description      = forms.CharField(widget=forms.Textarea(attrs={
-        "rows": "10",
-        "cols": "30",
+        "rows": "5",
+        "cols": "50",
         "placeholder": "Napišite tekst ovde"
     }), label="Opis", required=True)
     has_images       = forms.BooleanField(label="Ima slike", required=True)
-    move_date        = forms.DateField(label="Datum useljenja", required=True)
+    move_date        = forms.DateField(widget=forms.DateInput(attrs={
+        "type": "date"
+    }), label="Datum useljenja", required=True)

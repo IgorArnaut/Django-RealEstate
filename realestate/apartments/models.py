@@ -52,17 +52,17 @@ class Apartment(models.Model):
 
 
     def __str__(self):
-        return f"{self.location} {self.price} {self.story}"
+        return f"{self.location} {self.price} EUR {self.area}m2 {self.story} sprat"
 
 
 class Ad(models.Model):
-    title = models.CharField(max_length=64)
-    description = models.TextField()
+    title = models.CharField(max_length=64) #
+    description = models.TextField() #
     date_posted = models.DateField(default=now)
     date_updated = models.DateField(null=True)
-    has_images = models.BooleanField()
-    move_date = models.DateField()
-    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
+    has_images = models.BooleanField() #
+    move_date = models.DateField() #
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE) #
 
 
     def __str__(self):
@@ -73,7 +73,7 @@ class Account(AbstractBaseUser):
     username = None
     email = models.EmailField(null=True, max_length=64)
     phone = models.CharField(max_length=16)
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     ads = models.ManyToManyField(Ad)
 
 
@@ -84,7 +84,7 @@ class Account(AbstractBaseUser):
 class Landlord(Account):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
-    liked_ads = models.ManyToManyField(Ad, related_name='liked_ads')
+    liked_ads = models.ManyToManyField(Ad, related_name="liked_ads")
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
