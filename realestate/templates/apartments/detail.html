@@ -1,4 +1,4 @@
-{% block title %} - Detalji{% endblock %} {% block layout %} {% if ad %}
+{% extends 'layout/layout.html' %} {% block title %} {% if ad %} {{ ad }} {% endif %} - Detalji {% endblock %} {% block content %} {% if ad %}
 <h1>{{ ad.title }}</h1>
 <div>
   <h2>Uslovi</h2>
@@ -20,5 +20,6 @@
   <h2>Opis</h2>
   <p>{{ ad.description }}</p>
 </div>
+{% endif %}
 <a href="{% url 'index' %}">Nazad</a>
-{% endif %} {% endblock %}
+{% endblock %}
