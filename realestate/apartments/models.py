@@ -40,15 +40,15 @@ class Content(models.Model):
 
 class Apartment(models.Model):
     num_of_rooms = models.PositiveSmallIntegerField()
-    location = models.CharField(max_length=32)
-    price = models.PositiveIntegerField()
-    area = models.PositiveIntegerField()
-    story = models.PositiveSmallIntegerField()
-    state = models.CharField(max_length=2, choices=STATE_CHOICES, default="OG")
-    furnishing = models.CharField(max_length=2, choices=FURNISHING_CHOICES, default="FU")
-    heating = models.CharField(max_length=2, choices=HEATING_CHOICES, default="DI")
-    conditions = models.ManyToManyField(Condition)
-    contents = models.ManyToManyField(Content)
+    location     = models.CharField(max_length=32)
+    price        = models.PositiveIntegerField()
+    area         = models.PositiveIntegerField()
+    story        = models.PositiveSmallIntegerField()
+    state        = models.CharField(max_length=2, choices=STATE_CHOICES, default="OG")
+    furnishing   = models.CharField(max_length=2, choices=FURNISHING_CHOICES, default="FU")
+    heating      = models.CharField(max_length=2, choices=HEATING_CHOICES, default="DI")
+    conditions   = models.ManyToManyField(Condition)
+    contents     = models.ManyToManyField(Content)
 
 
     def __str__(self):
@@ -56,13 +56,13 @@ class Apartment(models.Model):
 
 
 class Ad(models.Model):
-    title = models.CharField(max_length=64) #
-    description = models.TextField() #
-    date_posted = models.DateField(default=now)
+    title        = models.CharField(max_length=64) #
+    description  = models.TextField() #
+    date_posted  = models.DateField(default=now)
     date_updated = models.DateField(null=True)
-    has_images = models.BooleanField() #
-    move_date = models.DateField() #
-    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE) #
+    has_images   = models.BooleanField() #
+    move_date    = models.DateField() #
+    apartment    = models.ForeignKey(Apartment, on_delete=models.CASCADE) #
 
 
     def __str__(self):
@@ -70,11 +70,11 @@ class Ad(models.Model):
 
 
 class Account(AbstractBaseUser):
-    username = None
-    email = models.EmailField(null=True, max_length=64)
-    phone = models.CharField(max_length=16)
+    username       = None
+    email          = models.EmailField(null=True, max_length=64)
+    phone          = models.CharField(max_length=16)
     USERNAME_FIELD = "email"
-    ads = models.ManyToManyField(Ad)
+    ads            = models.ManyToManyField(Ad)
 
 
     class Meta:
@@ -83,16 +83,17 @@ class Account(AbstractBaseUser):
 
 class Landlord(Account):
     first_name = models.CharField(max_length=32)
-    last_name = models.CharField(max_length=32)
-    liked_ads = models.ManyToManyField(Ad, related_name="liked_ads")
+    last_name  = models.CharField(max_length=32)
+    liked_ads  = models.ManyToManyField(Ad, related_name="liked_ads")
+
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
 
 class Address(models.Model):
-    city = models.CharField(max_length=16)
-    street = models.CharField(max_length=32)
+    city       = models.CharField(max_length=16)
+    street     = models.CharField(max_length=32)
     street_num = models.PositiveSmallIntegerField()
 
 
@@ -105,10 +106,10 @@ class Address(models.Model):
 
 
 class Agency(Account):
-    name = models.CharField(null=True, max_length=32)
-    website = models.CharField(max_length=48)
+    name              = models.CharField(null=True, max_length=32)
+    website           = models.CharField(max_length=48)
     registration_date = models.DateField(default=now)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True)
+    address           = models.ForeignKey(Address, on_delete=models.CASCADE, null=True)
 
 
     class Meta:
